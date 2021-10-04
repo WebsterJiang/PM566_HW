@@ -3,6 +3,8 @@ title: "HW1"
 output:
   github_document:
     df_print: paged
+    html_preview: false
+  html_document: default
 always_allow_html: yes
 ---
 
@@ -103,7 +105,7 @@ data_2019 <- rename(data_2019, lon='SITE_LONGITUDE', lat='SITE_LATITUDE',pm25='D
 ```
 
 ## Step3:
-```{r}
+```{r eval = knitr::is_html_output(excludes = "gfm")}
 library(leaflet)
 leaflet() %>% 
   addProviderTiles('CartoDB.Positron') %>% 
