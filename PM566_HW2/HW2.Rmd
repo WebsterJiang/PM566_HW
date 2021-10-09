@@ -3,7 +3,7 @@ title: "HW2"
 output: 
     github_document:
       html_preview: false
-    html_document: defsult
+    html_document: default
 always_allow_html: true
 ---
 
@@ -279,6 +279,7 @@ met1[!is.na(pm25_mass)&!is.na(fev)] %>%
   geom_smooth(method = lm, se = FALSE, col = "black")+
   labs(x="PM2.5",y = expression("Forced expiratory volume" *~ ml))
 ```
+
 I choose to use scatter plot to show the association between FEV and PM2.5 mass. From the graph above, it's hard to see a clear association between FEV and PM2.5 mass. From the line we plotted in our graph, it has negative but close to zero value for the slope, so there may be negative association between FEV and PM2.5 mass. 
 
 
