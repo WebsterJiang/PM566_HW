@@ -1,9 +1,9 @@
 ---
 title: "HW2"
 output: 
+    html_document: default
     github_document:
       html_preview: false
-    html_document: default
 always_allow_html: true
 ---
 
