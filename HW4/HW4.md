@@ -53,9 +53,9 @@ microbenchmark::microbenchmark(
 ```
 
     ## Unit: relative
-    ##          expr      min      lq     mean   median       uq      max neval
-    ##     fun1(dat) 10.85802 10.7529 8.368849 10.40341 10.48334 1.121798   100
-    ##  fun1alt(dat)  1.00000  1.0000 1.000000  1.00000  1.00000 1.000000   100
+    ##          expr      min       lq     mean   median       uq     max neval
+    ##     fun1(dat) 10.73175 11.57439 8.143305 11.63317 12.33941 1.63398   100
+    ##  fun1alt(dat)  1.00000  1.00000 1.000000  1.00000  1.00000 1.00000   100
 
 ``` r
 # Test for the second
@@ -66,9 +66,9 @@ microbenchmark::microbenchmark(
 ```
 
     ## Unit: relative
-    ##          expr      min       lq     mean   median       uq       max neval
-    ##     fun2(dat) 3.348748 2.420534 1.805625 2.325786 2.248828 0.2010465   100
-    ##  fun2alt(dat) 1.000000 1.000000 1.000000 1.000000 1.000000 1.0000000   100
+    ##          expr     min       lq     mean   median       uq       max neval
+    ##     fun2(dat) 3.79325 2.569731 1.821321 2.335294 2.181657 0.2849135   100
+    ##  fun2alt(dat) 1.00000 1.000000 1.000000 1.000000 1.000000 1.0000000   100
 
 #### Problem 2: Make things run faster with parallel computing
 
@@ -97,7 +97,7 @@ system.time({
     ## [1] 3.14124
 
     ##    user  system elapsed 
-    ##   3.237   0.932   4.241
+    ##   3.220   0.925   4.211
 
 ``` r
 # Rewrite the previous code using parLapply() to make it run faster. 
@@ -114,7 +114,7 @@ system.time({
     ## [1] 3.141482
 
     ##    user  system elapsed 
-    ##   0.005   0.000   1.761
+    ##   0.004   0.000   1.788
 
 ``` r
 stopCluster(cl)
