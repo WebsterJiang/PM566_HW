@@ -1,0 +1,85 @@
+---
+title: "Introduction to Covid-19"
+author: "Wenbo Jiang"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background
+
+Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2 virus.
+
+Most people infected with the virus will experience mild to moderate respiratory illness and recover without requiring special treatment. However, some will become seriously ill and require medical attention. Older people and those with underlying medical conditions like cardiovascular disease, diabetes, chronic respiratory disease, or cancer are more likely to develop serious illness. Anyone can get sick with COVID-19 and become seriously ill or die at any age. 
+
+The best way to prevent and slow down transmission is to be well informed about the disease and how the virus spreads. Protect yourself and others from infection by staying at least 1 metre apart from others, wearing a properly fitted mask, and washing your hands or using an alcohol-based rub frequently. Get vaccinated when it’s your turn and follow local guidance.
+
+The virus can spread from an infected person’s mouth or nose in small liquid particles when they cough, sneeze, speak, sing or breathe. These particles range from larger respiratory droplets to smaller aerosols. It is important to practice respiratory etiquette, for example by coughing into a flexed elbow, and to stay home and self-isolate until you recover if you feel unwell.
+
+
+
+## Geographic distribution and case counts
+Since the first reports of cases from Wuhan, a city in the Hubei Province of China, at the end of 2019, cases have been reported in all continents. Globally, over 250 million confirmed cases of COVID-19 have been reported. Updated case counts in English can be found on the World Health Organization and European Centre for Disease Prevention and Control websites. An interactive map highlighting confirmed cases throughout the world can be found here.
+
+The reported case counts underestimate the overall burden of COVID-19, as only a fraction of acute infections are diagnosed and reported. Seroprevalence surveys in the United States and Europe have suggested that after accounting for potential false positives or negatives, the rate of prior exposure to SARS-CoV-2, as reflected by seropositivity, exceeds the incidence of reported cases by approximately 10-fold or more [42-44].
+
+
+
+## Covid-19 symptoms
+* Fever or chills
+* Cough
+* Shortness of breath or difficulty breathing
+* Fatigue
+* Muscle or body aches
+* Headache
+* New loss of taste or smell
+* Sore throat
+* Congestion or runny nose
+* Nausea or vomiting
+* Diarrhea
+
+
+
+## Covid-19 Prevention:
+* Wear a mask to protect yourself and others and stop the spread of COVID-19.
+* Stay at least 6 feet (about 2 arm lengths) from others who don’t live with you.
+* Avoid crowds and poorly ventilated spaces. The more people you are in contact with, the more likely you are to be exposed to COVID-19.
+* Get a COVID-19 vaccine when it’s available to you.
+* Clean your hands often, either with soap and water for 20 seconds or a hand sanitizer that contains at least 60% alcohol.
+* Avoid close contact with people who are sick.
+* Cover your cough or sneeze with a tissue, then throw the tissue in the trash.
+* Clean frequently touched objects and surfaces daily. If someone is sick or has tested positive for COVID-19, disinfect frequently touched surfaces.
+* Monitor your health daily.
+
+
+
+## Covid-19 Treatment:
+* Stay home except to get medical care.
+* Monitor your symptoms carefully. If your symptoms get worse, call your healthcare provider immediately.
+* Get rest and stay hydrated. Take over-the-counter medicines, such as acetaminophen, to help you feel better.
+* If you have a medical appointment, notify your healthcare provider ahead of time that you have or may have COVID-19.
+* Stay in a specific room and away from other people in your home. If possible, use a separate bathroom. If you must be around others, wear a mask.
+
+
+
+## Vaccinations Situation
+The U.S. COVID-19 Vaccination Program began December 14, 2020. As of November 17, 2021, 444.8 million vaccine doses have been administered. Overall, about 228.2 million people, or 68.7% of the total U.S. population, have received at least one dose of vaccine. About 195.6 million people, or 58.9% of the total U.S. population, have been fully vaccinated.* About 31.5 million additional/booster doses in fully vaccinated people have been reported. As of November 17, 2021, the 7-day average number of administered vaccine doses reported (by date of CDC report) to CDC per day was 1,471,757, a 11.8% increase from the previous week.
+
+CDC’s COVID Data Tracker Vaccination Demographic Trends tab shows vaccination trends by age group. As of November 17, 2021, 99.5% of people ages 65 years or older have received at least one dose of vaccine and 86.2% are fully vaccinated. More than three-quarters (81.7%) of people ages 18 years or older have received at least one dose of vaccine and 70.7% are fully vaccinated. For people ages 12 years or older, 79.8% have received at least one dose of vaccine and 68.9% are fully vaccinated. For people ages 5 years or older, 73.1% have received at least one dose of vaccine and 62.6% are fully vaccinated.
+
+
+
+## Reference:
+https://covid19.healthdata.org/united-states-of-america?view=daily-deaths&tab=trend
+
+https://www.who.int/health-topics/coronavirus#tab=tab_1
+
+https://www.cdc.gov/coronavirus/2019-ncov/covid-data/covidview/index.html
+
+https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/steps-when-sick.html

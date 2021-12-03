@@ -1,0 +1,195 @@
+---
+title: "Assignment 5"
+author: "Wenbo Jiang"
+output: 
+    html_document:
+        toc: TRUE
+        toc_float: TRUE
+---
+
+## Introduction:
+For this project, I am wondering whether the different in people's income would influence the death cases in the US. For the first dateset, I choose to use Median Income for each state in the US provided by United State Census and the link is 'https://www.census.gov/search-results.html?q=Median+income+&page=1&stateGeo=none&searchtype=web&cssp=SERP&_charset_=UTF-8'. For the second dateset, I choose to use the collection of Covid-19 cases and all-causes death cases in each state and county in the US provided by the CDC and the link is 'https://data.cdc.gov/NCHS/Provisional-COVID-19-Death-Counts-in-the-United-St/kn79-hsxy' 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(leaflet)
+library(data.table)
+library(dtplyr)
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(tibble)
+library(tidytext)
+library(ggplot2)
+library(leaflet)
+library(usmap)
+library(data.table)
+library(tidyverse)
+library(dplyr)
+library(plotly)
+library(DT)
+library(knitr)
+```
+
+```{r}
+# INITALIZE CODE CHUNK OPTIONS
+opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  eval=TRUE,
+  echo = TRUE,
+  cache = FALSE,
+  fig.width = 7, 
+  fig.align = 'center',
+  fig.asp = 0.618,
+  out.width = "700px",
+  class.source = "code-r")
+```
+
+
+## 1.Main Question: Is there an association between Income status and death caused by Covid-19?
+
+## Method:
+I need to merge those two datasets by the variable 'State' to get a full dataset which is helpful for the further analysis. Then, I delete the comma occurred in some numerical number such as changing 14,500 to 14500 in order to better run the data in R. For the next step, I renamed certain variables that include 'space' like changing "urban rural code" to "urban_rual_code" as a whole word. Before providing some statistical result, the most important step is to check the missing value occurs in our data. For any observations with the missing value for the death cases, I just replaced them with 0. In order to better summary the key outcome by the variable state, I created new variables to reflect the total death cases in each state. Then, I created a table to show the details of each key variable. The table contains four variables which classified by State: number of counties, Income, COVID-19 death cases and all-caused death cases. For the data visualization, I plotted 4 graphs to show the association between each key variables. For example, I used draw a US map to show the density of COVID-19 death in each state and draw a scatter plot to reflect the linear association between Income and number of Covid-19 death cases.
+
+
+## 2. Read in the data
+```{r Import the data}
+income <- data.table::fread("/Users/websterj/Desktop/median income.csv")
+covid <- data.table::fread("/Users/websterj/Desktop/Covid.csv")
+```
+
+Merge two dataset
+```{r}
+covid1 <- merge(
+  x = income,
+  y = covid,
+  all.x = TRUE, all.y = FALSE,
+  by= "State"
+)
+
+covid1<-data.table(covid1)
+
+```
+## 3. Check the data
+```{r}
+#check the dimension of the dataset
+dim(covid1)
+nrow(covid1)
+ncol(covid1)
+
+# To know the contents of data
+str(covid1)
+
+# Rename some variables
+colnames(covid1)[12] <- "urban_rural_code"
+colnames(covid1)[10] <-"county_name"
+
+# Check variables
+# For two of our variables, they are not in numerical form, so we need to transform it.
+covid1$`Covid_death` <- as.numeric(gsub(",","",covid1$`Covid_death`))
+
+covid1$`All_causes_death` <- as.numeric(gsub(",","",covid1$`All_causes_death`))
+
+# Create new variables for total COVID_19 cases in certain State and death in different kind of urban classification.
+covid1<-as.data.table(covid1 %>% 
+  group_by(State) %>% 
+  mutate(
+  total_covid_death_instate = sum(Covid_death)
+))
+
+covid1<-as.data.table(covid1 %>% 
+  group_by(State) %>% 
+  mutate(
+  total_all_caused_death_instate = sum(All_causes_death)
+))
+
+covid1<-as.data.table(covid1 %>% 
+  group_by(urban_rural_code) %>% 
+  mutate(
+  death_mean_urban = mean(Covid_death)
+))
+
+# Key Variables
+table(covid1$State_full_name)
+summary(covid1$Income)
+summary(covid1$Lon)
+summary(covid1$Lat)
+summary(covid1$total_covid_death_instate)
+summary(covid1$total_all_caused_death_instate)
+
+# Check missing values:
+mean(is.na(covid1$Income))
+mean(is.na(covid1$`Covid_death`))
+mean(is.na(covid1$`All_causes_death`))
+
+# We find that there are missing values in the variable: "Death involving COVID-19" and "Deaths from All Causes", what I will do is to assign value 0 to those missing values.
+covid1$`Covid_death`[is.na(covid1$`Covid_death`)] <- 0
+covid1$`All_causes_death`[is.na(covid1$`All_causes_death`)] <- 0
+```
+## Preliminary Results:
+We checked the dimension of our data and noticed that there are 3023 total observations and 14 different factors for each of our observation. Then, I did some summaries for the key variables such as Income, Covid-19 death cases and all caused death cases. I found the the lowest median income for people living in certain state is $45081 and highest median income for people living in certain state is $86420. Also, I noticed that the lowest death cases caused by COVID-19 is in Colorado which equals to 0 and highest death cases caused by COVID-19 in California which equals to 73920 and mean death cases caused by COVID-19 in the US is 20504 for any state. From the data visualization, The first plot shows that California, Florida, New York and Texas contains much more COVID-19 death than other states. For the second plot, we noticed that the range of Income between each state is relatively large which equals to 41339, Mississippi with the lowest median income which equals to 45081 and District of Columbia with the highest median income which equals to 86420. The third graph is about the association between different urban-rural classification and COVID-19 death cases. We found that there is a relative positive linear association, as the counties contains more population, the more COVID-19 death cases occurs. The last graph is the scatter plot for the association between Income and COVID-19 death. However, the pattern is not clear and looks like a normal distribution. 
+
+## 4. Summary statistics in tabular form
+```{r}
+tab <- covid1[, .(
+  Number_of_County =length(unique(county_name)),
+  Income=unique(Income),
+  Covid_death=sum(Covid_death),
+  All_death=sum(All_causes_death)
+  ),
+  by=State]
+
+datatable(tab)
+```
+
+## 5. Data visualization
+```{r plots}
+# Using Usmap to show the number of Covid_19 death cases in each state.
+covid1<-as.data.table(covid1 %>% 
+  group_by(State) %>% 
+  mutate(
+  total_covid_death_instate = sum(Covid_death)
+))
+
+covid2<-covid1
+colnames(covid2)[1] <- "state" 
+usmap<-plot_usmap(regions = 'states', data = covid2, values ='total_covid_death_instate', labels = TRUE) +
+  scale_fill_continuous(low = "white", high = "blue", name="Number of COVID-19 death")
+ggplotly(usmap)
+
+
+# Then, we want to draw a bar graph about the association between State and Income.
+income_state<-ggplot(income[!is.na(Income)&!is.na(State)],aes(x=State, y=Income,fill=State))+
+        geom_bar(stat='identity')+
+        labs(x="State Name",y = "Median Income")+
+        ggtitle("Median Income in each State")
+ggplotly(income_state)
+
+# Urban-Rural Classification VS Covid death
+covid1<-as.data.table(covid1 %>% 
+  group_by(urban_rural_code) %>% 
+  mutate(
+  death_mean_urban = mean(Covid_death)
+))
+
+urban_rural_death<-covid1[!is.na(urban_rural_code)] %>%
+  ggplot(aes(x=urban_rural_code, y=death_mean_urban,fill=urban_rural_code))+
+  geom_bar(stat='identity')+
+  labs(x="Urban rural Code",y ="Mean number of Covid-19 death")+
+  ggtitle("Mean number of death in each subset of Urban-Rural Classification")
+ggplotly(urban_rural_death)
+
+# state income vs total death
+income_death<-ggplot(data=covid1) +
+  geom_point(mapping=aes(x=Income, y=total_covid_death_instate))+
+  geom_smooth(mapping=aes(x=Income, y=total_covid_death_instate))+
+  labs(x="Median Income",y = "Total Covid-19 Deaths in certain state")+
+  ggtitle("How Median Income Index related to Covid-19 Deaths")
+ggplotly(income_death)
+
+# The is no clear pattern for the distribution of the association between Income and number of death.
+```
+## Conclusion
+We collect the information about the median Income and COVID-19 death for all 50 States in the US. Four of those state which are LA,TX,NY and FL have the higher COVID-19 death cases than other states. For the Median income for people living in CA,TX and NY are over $60,000 which is a relative large value, but for the linear association between income and COVID-19 deaths, there is not a clear pattern. For the further analysis, I would introduce more variables like race, gender to show whether they confounded the association between income and COVID-19 deaths.
+
